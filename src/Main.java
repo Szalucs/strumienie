@@ -1,15 +1,23 @@
+import javax.print.DocFlavor;
+import java.io.BufferedReader;
+import java.io.InputStream;
+
+import java.io.PrintStream;
 import java.nio.file.Path;
+
+import static java.lang.System.in;
+import static java.lang.System.out;
 
 public class Main {
     public   static void main(String[] args) {
+        FileCommanderCLI fileCommanderCLI = new FileCommanderCLI(System.in, System.out)
 
-        FileCommander fileCommander = new FileCommander();
-        System.out.println(fileCommander.pwd());
-        FileCommander.cd(Path.of("/home/student/Pulpit"));
-        System.out.println(fileCommander.pwd());
-        fileCommander.cd(Path.of(".."));
-        System.out.println(fileCommander.pwd());
-        System.out.println(fileCommander.ls());
+
+
+
+
+
+        }
 
 
 

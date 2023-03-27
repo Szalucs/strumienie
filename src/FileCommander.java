@@ -3,8 +3,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class FileCommander {
     private Path path;
@@ -25,30 +25,41 @@ public class FileCommander {
 
 
     }
-    public List<String> ls()
-    {
-        Comparator<Path> comparator = (path1,path2)-> Boolean.compare(Files.isDirectory(path2),Files.isDirectory(path1));
+    public List<String> ls() {
+        Comparator<Path> comparator = (path1, path2) -> Boolean.compare(Files.isDirectory(path2), Files.isDirectory(path1));
         comparator = comparator.thenComparing(Path::getFileName);
-        try{
-           Files.list(path)
-                   .map(Path :: getFileName)
-                   .sorted(comparator)
-                   .map(o-> {
-                       if (Files.isDirectory(o)) {
-                           return "["+o.getFileName().toString()+"]";
-                       }
-                       return o.getFileName().toString();
-                   })
-                   .collect(Collectors.toList());
 
-
-        }
-        catch(IOException e){
+        try {
+            Files.list(path)
+                    .map(Path::getFileName)
+                    .sorted(comparator)
+                    .map(o -> {
+                        if (Files.isDirectory(o)) {
+                            return "[" + o.getFileName().toString() + "]";
+                        }
+                        return o.getFileName().toString();
+                    })
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
             throw new RuntimeException(e);
-
-
-
         }
+
+
+    }
+    public List<String> find(String substring)
+    {
+        try {
+            return Files.walk(path)
+                    .filter(o->o.getFileName().toString().contains(substring))
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
+
+
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
 
     }
 }
